@@ -23,6 +23,29 @@ class ShipFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rowChildren = <Widget>[
+      Expanded(
+        child: Text(
+          value ?? placeholder,
+          style: value == null
+              ? AppTextStyles.dmSans(
+                  fontSize: 16,
+                  height: 26,
+                  color: AppColors.white60,
+                )
+              : AppTextStyles.dmSans(
+                  fontSize: 16,
+                  height: 26,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
+                ),
+        ),
+      ),
+    ];
+    if (trailing != null) {
+      rowChildren.add(trailing!);
+    }
+
     final Widget content = Container(
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -30,28 +53,7 @@ class ShipFormField extends StatelessWidget {
         color: AppColors.black2,
         borderRadius: BorderRadius.circular(AppLayout.buttonRadiusSm),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              value ?? placeholder,
-              style: value == null
-                  ? AppTextStyles.dmSans(
-                      fontSize: 16,
-                      height: 26,
-                      color: AppColors.white60,
-                    )
-                  : AppTextStyles.dmSans(
-                      fontSize: 16,
-                      height: 26,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.white,
-                    ),
-            ),
-          ),
-          ?trailing,
-        ],
-      ),
+      child: Row(children: rowChildren),
     );
 
     if (onTap == null) {
