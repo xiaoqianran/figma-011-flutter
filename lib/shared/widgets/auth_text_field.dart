@@ -13,6 +13,7 @@ class AuthTextField extends StatelessWidget {
     this.keyboardType,
     this.onToggleVisibility,
     this.showVisibilityToggle = false,
+    this.validator,
   });
 
   final String label;
@@ -21,6 +22,7 @@ class AuthTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final VoidCallback? onToggleVisibility;
   final bool showVisibilityToggle;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +43,12 @@ class AuthTextField extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: TextField(
+              child: TextFormField(
                 controller: controller,
                 obscureText: obscureText,
                 keyboardType: keyboardType,
+                validator: validator,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 style: AppTextStyles.dmSans(
                   fontSize: 16,
                   height: 26,
@@ -56,6 +60,7 @@ class AuthTextField extends StatelessWidget {
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
+                  errorStyle: TextStyle(fontSize: 11),
                 ),
               ),
             ),

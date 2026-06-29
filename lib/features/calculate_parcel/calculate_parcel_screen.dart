@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/constants/app_layout.dart';
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/parcel_flow_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/core/utils/app_feedback.dart';
 import 'package:figma_011/features/calculate_parcel/models/package_size.dart';
 import 'package:figma_011/features/calculate_parcel/widgets/package_size_card.dart';
 import 'package:figma_011/features/calculate_parcel/widgets/route_selector.dart';
@@ -19,7 +21,53 @@ class CalculateParcelScreen extends StatefulWidget {
 }
 
 class _CalculateParcelScreenState extends State<CalculateParcelScreen> {
-  String _selectedId = mockPackageSizes.first.id;
+  final ParcelFlowState _flow = ParcelFlowState.instance;
+  late final TextEditingController _fromController;
+  late final TextEditingController _toController;
+
+  @override
+  void initState() {
+    super.initState();
+    _fromController = TextEditingController(text: _flow.from);
+    _toController = TextEditingController(text: _flow.to);
+  }
+
+  @override
+  void dispose() {
+    _fromController.dispose();
+    _toController.dispose();
+    super.dispose();
+  }
+
+  void _syncFrom(String value) {
+    _flow.updateRoute(from: value);
+  }
+
+  void _syncTo(String value) {
+    _flow.updateRoute(to: value);
+  }
+
+  void _selectPackage(String id) {
+    _flow.selectPackage(id);
+    setState(() {});
+  }
+
+  void _onScan() {
+    showAppSnackBar(context, message: 'QR scan is not available in this demo');
+  }
+
+  void _onCalculate() {
+    if (_fromController.text.trim().isEmpty || _toController.text.trim().isEmpty) {
+      showAppSnackBar(
+        context,
+        message: 'Please enter both From and To locations',
+        isError: true,
+      );
+      return;
+    }
+    _flow.calculatePrice();
+    context.push(AppRoutes.calculateResult);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +82,11 @@ class _CalculateParcelScreenState extends State<CalculateParcelScreen> {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
                 children: [
-                  const RouteSelector(
-                    from: 'Gouripur, Daudkandi',
-                    to: 'Tejgaon, Dhaka',
+                  RouteSelector(
+                    fromController: _fromController,
+                    toController: _toController,
+                    onFromChanged: _syncFrom,
+                    onToChanged: _syncTo,
                   ),
                   const SizedBox(height: 24),
                   Row(
@@ -51,7 +101,7 @@ class _CalculateParcelScreenState extends State<CalculateParcelScreen> {
                           ),
                         ),
                       ),
-                      _ScanButton(onTap: () {}),
+                      _ScanButton(onTap: _onScan),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -65,8 +115,8 @@ class _CalculateParcelScreenState extends State<CalculateParcelScreen> {
                         final size = mockPackageSizes[index];
                         return PackageSizeCard(
                           packageSize: size,
-                          isSelected: _selectedId == size.id,
-                          onTap: () => setState(() => _selectedId = size.id),
+                          isSelected: _flow.selectedPackageId == size.id,
+                          onTap: () => _selectPackage(size.id),
                         );
                       },
                     ),
@@ -86,7 +136,7 @@ class _CalculateParcelScreenState extends State<CalculateParcelScreen> {
                 backgroundColor: AppColors.black1,
                 foregroundColor: AppColors.white,
                 border: const BorderSide(color: AppColors.white30),
-                onPressed: () => context.push(AppRoutes.calculateResult),
+                onPressed: _onCalculate,
               ),
             ),
           ],

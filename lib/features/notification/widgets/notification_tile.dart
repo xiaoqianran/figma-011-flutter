@@ -9,35 +9,58 @@ class NotificationTile extends StatelessWidget {
   const NotificationTile({
     super.key,
     required this.notification,
+    this.onTap,
   });
 
   final AppNotification notification;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-              color: AppColors.primary,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              notification.icon,
-              size: 16,
-              color: AppColors.white,
-            ),
+    final opacity = notification.isRead ? 0.55 : 1.0;
+
+    return Opacity(
+      opacity: opacity,
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: notification.isRead
+                      ? AppColors.white30
+                      : AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  notification.icon,
+                  size: 16,
+                  color: AppColors.white,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _NotificationText(notification: notification),
+              ),
+              if (!notification.isRead)
+                Container(
+                  width: 8,
+                  height: 8,
+                  margin: const EdgeInsets.only(top: 8),
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+            ],
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _NotificationText(notification: notification),
-          ),
-        ],
+        ),
       ),
     );
   }

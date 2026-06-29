@@ -6,7 +6,16 @@ import 'package:figma_011/core/theme/app_text_styles.dart';
 
 /// Search + filter row — Figma 516:3230 / 516:3234.
 class ServicesSearchBar extends StatelessWidget {
-  const ServicesSearchBar({super.key});
+  const ServicesSearchBar({
+    super.key,
+    this.controller,
+    this.onChanged,
+    this.hint = 'Search address',
+  });
+
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +32,36 @@ class ServicesSearchBar extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    'Search address',
-                    style: AppTextStyles.dmSans(
-                      fontSize: 12,
-                      height: 22,
-                      color: AppColors.white60,
-                    ),
-                  ),
+                  child: controller != null
+                      ? TextField(
+                          controller: controller,
+                          onChanged: onChanged,
+                          style: AppTextStyles.dmSans(
+                            fontSize: 12,
+                            height: 22,
+                            color: AppColors.white,
+                          ),
+                          cursorColor: AppColors.primary,
+                          decoration: InputDecoration(
+                            hintText: hint,
+                            hintStyle: AppTextStyles.dmSans(
+                              fontSize: 12,
+                              height: 22,
+                              color: AppColors.white60,
+                            ),
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                        )
+                      : Text(
+                          hint,
+                          style: AppTextStyles.dmSans(
+                            fontSize: 12,
+                            height: 22,
+                            color: AppColors.white60,
+                          ),
+                        ),
                 ),
                 const Icon(
                   Icons.mic_none,

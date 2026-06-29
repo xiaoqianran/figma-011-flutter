@@ -2,6 +2,7 @@ abstract final class AppRoutes {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
+  static const String forgotPassword = '/forgot-password';
   static const String signUp = '/sign-up';
   static const String home = '/home';
   static const String history = '/history';
@@ -14,6 +15,7 @@ abstract final class AppRoutes {
   static const String shipParcel = '/ship-parcel';
   static const String shipParcelDetails = '/ship-parcel/details';
   static const String shipPayment = '/ship-parcel/payment';
+  static const String orderSuccess = '/order-success';
   static const String menu = '/menu';
   static const String profile = '/profile';
   static const String faq = '/faq';

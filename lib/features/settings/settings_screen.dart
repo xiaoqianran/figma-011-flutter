@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:figma_011/core/services/app_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
 import 'package:figma_011/shared/widgets/settings_toggle_row.dart';
@@ -14,9 +15,59 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _pushNotification = true;
-  bool _emailNotification = false;
-  bool _locationServices = true;
+  late bool _pushNotification = AppState.instance.pushNotification;
+  late bool _emailNotification = AppState.instance.emailNotification;
+  late bool _locationServices = AppState.instance.locationServices;
+  late String _language = AppState.instance.language;
+
+  void _saveSettings({String? newLanguage}) {
+    if (newLanguage != null) {
+      _language = newLanguage;
+    }
+    AppState.instance.updateSettings(
+      push: _pushNotification,
+      email: _emailNotification,
+      location: _locationServices,
+      newLanguage: newLanguage,
+    );
+  }
+
+  Future<void> _showLanguagePicker() async {
+    final selected = await showDialog<String>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        backgroundColor: AppColors.black2,
+        title: Text(
+          'Select Language',
+          style: AppTextStyles.dmSans(
+            fontSize: 16,
+            height: 26,
+            color: AppColors.white,
+          ),
+        ),
+        children: [
+          for (final option in const ['English', 'Bengali', 'Hindi'])
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, option),
+              child: Text(
+                option,
+                style: AppTextStyles.dmSans(
+                  fontSize: 14,
+                  height: 24,
+                  color: _language == option
+                      ? AppColors.primary
+                      : AppColors.white,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+
+    if (selected != null && selected != _language) {
+      setState(() => _saveSettings(newLanguage: selected));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,30 +94,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     label: 'Push Notification',
                     value: _pushNotification,
                     onChanged: (value) {
-                      setState(() => _pushNotification = value);
+                      setState(() {
+                        _pushNotification = value;
+                        _saveSettings();
+                      });
                     },
                   ),
                   SettingsToggleRow(
                     label: 'Email Notification',
                     value: _emailNotification,
                     onChanged: (value) {
-                      setState(() => _emailNotification = value);
+                      setState(() {
+                        _emailNotification = value;
+                        _saveSettings();
+                      });
                     },
                   ),
                   SettingsToggleRow(
                     label: 'Location Services',
                     value: _locationServices,
                     onChanged: (value) {
-                      setState(() => _locationServices = value);
+                      setState(() {
+                        _locationServices = value;
+                        _saveSettings();
+                      });
                     },
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     child: Divider(color: AppColors.white30),
                   ),
-                  const _SettingsInfoRow(
+                  _SettingsInfoRow(
                     label: 'Language',
-                    value: 'English',
+                    value: _language,
+                    onTap: _showLanguagePicker,
                   ),
                   const _SettingsInfoRow(
                     label: 'App Version',
@@ -120,36 +181,50 @@ class _SettingsInfoRow extends StatelessWidget {
   const _SettingsInfoRow({
     required this.label,
     required this.value,
+    this.onTap,
   });
 
   final String label;
   final String value;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              style: AppTextStyles.dmSans(
-                fontSize: 16,
-                height: 26,
-                fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: AppTextStyles.dmSans(
+                  fontSize: 16,
+                  height: 26,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-          Text(
-            value,
-            style: AppTextStyles.dmSans(
-              fontSize: 14,
-              height: 24,
-              color: AppColors.white60,
+            Text(
+              value,
+              style: AppTextStyles.dmSans(
+                fontSize: 14,
+                height: 24,
+                color: AppColors.white60,
+              ),
             ),
-          ),
-        ],
+            if (onTap != null) ...[
+              const SizedBox(width: 4),
+              const Icon(
+                Icons.chevron_right,
+                size: 18,
+                color: AppColors.white60,
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/services/app_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/core/utils/app_feedback.dart';
+import 'package:figma_011/core/utils/form_validators.dart';
 import 'package:figma_011/shared/widgets/auth_text_field.dart';
 import 'package:figma_011/shared/widgets/primary_button.dart';
 
@@ -16,11 +19,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final _nameController = TextEditingController(text: 'Ferdous Sarker');
-  final _phoneController = TextEditingController(text: '+880-51248 984');
-  final _emailController = TextEditingController(text: 'ferdous@gmail.com');
-  final _addressController =
-      TextEditingController(text: 'Block-B, Road-2, Cumilla');
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _addressController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final state = AppState.instance;
+    _nameController.text = state.userName;
+    _phoneController.text = state.userPhone;
+    _emailController.text = state.userEmail;
+    _addressController.text = state.userAddress;
+  }
 
   @override
   void dispose() {
@@ -31,54 +44,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
+  void _save() {
+    if (_formKey.currentState?.validate() != true) {
+      return;
+    }
+    AppState.instance.updateProfile(
+      name: _nameController.text,
+      email: _emailController.text,
+      phone: _phoneController.text,
+      address: _addressController.text,
+    );
+    showAppSnackBar(context, message: 'Profile updated successfully');
+    context.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.black1,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const _ProfileAppBar(),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
-                children: [
-                  AuthTextField(
-                    label: 'Name',
-                    controller: _nameController,
-                  ),
-                  const SizedBox(height: 24),
-                  AuthTextField(
-                    label: 'Phone',
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                  ),
-                  const SizedBox(height: 24),
-                  AuthTextField(
-                    label: 'Email',
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 24),
-                  AuthTextField(
-                    label: 'Address',
-                    controller: _addressController,
-                  ),
-                ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const _ProfileAppBar(),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+                  children: [
+                    AuthTextField(
+                      label: 'Name',
+                      controller: _nameController,
+                      validator: (value) =>
+                          FormValidators.requiredField(value, 'Name'),
+                    ),
+                    const SizedBox(height: 24),
+                    AuthTextField(
+                      label: 'Phone',
+                      controller: _phoneController,
+                      keyboardType: TextInputType.phone,
+                      validator: (value) =>
+                          FormValidators.requiredField(value, 'Phone'),
+                    ),
+                    const SizedBox(height: 24),
+                    AuthTextField(
+                      label: 'Email',
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: FormValidators.email,
+                    ),
+                    const SizedBox(height: 24),
+                    AuthTextField(
+                      label: 'Address',
+                      controller: _addressController,
+                      validator: (value) =>
+                          FormValidators.requiredField(value, 'Address'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: PrimaryButton(
-                label: 'Save Changes',
-                width: double.infinity,
-                height: 56,
-                borderRadius: AppLayout.buttonRadiusLg,
-                onPressed: () => context.pop(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                child: PrimaryButton(
+                  label: 'Save Changes',
+                  width: double.infinity,
+                  height: 56,
+                  borderRadius: AppLayout.buttonRadiusLg,
+                  onPressed: _save,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

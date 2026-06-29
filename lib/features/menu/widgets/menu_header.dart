@@ -8,9 +8,17 @@ import 'package:figma_011/core/theme/app_text_styles.dart';
 class MenuHeader extends StatelessWidget {
   const MenuHeader({
     super.key,
+    required this.email,
+    required this.name,
+    required this.sentCount,
+    required this.receivedCount,
     required this.onEditTap,
   });
 
+  final String email;
+  final String name;
+  final int sentCount;
+  final int receivedCount;
   final VoidCallback onEditTap;
 
   @override
@@ -47,7 +55,7 @@ class MenuHeader extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'ferdous@gmail.com',
+                        email,
                         style: AppTextStyles.dmSans(
                           fontSize: 14,
                           height: 24,
@@ -55,7 +63,7 @@ class MenuHeader extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Ferdous Sarker',
+                        name,
                         style: AppTextStyles.merriweatherBold(
                           fontSize: 20,
                           height: 30,
@@ -88,7 +96,10 @@ class MenuHeader extends StatelessWidget {
             left: 24,
             right: 24,
             bottom: 8,
-            child: _ShipmentStatsCard(),
+            child: _ShipmentStatsCard(
+              sentCount: sentCount,
+              receivedCount: receivedCount,
+            ),
           ),
         ],
       ),
@@ -97,6 +108,14 @@ class MenuHeader extends StatelessWidget {
 }
 
 class _ShipmentStatsCard extends StatelessWidget {
+  const _ShipmentStatsCard({
+    required this.sentCount,
+    required this.receivedCount,
+  });
+
+  final int sentCount;
+  final int receivedCount;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,13 +126,23 @@ class _ShipmentStatsCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(child: _StatColumn(label: 'Sent', value: '03')),
+          Expanded(
+            child: _StatColumn(
+              label: 'Sent',
+              value: sentCount.toString().padLeft(2, '0'),
+            ),
+          ),
           Container(
             width: 1,
             height: 24,
             color: AppColors.white,
           ),
-          Expanded(child: _StatColumn(label: 'Received', value: '09')),
+          Expanded(
+            child: _StatColumn(
+              label: 'Received',
+              value: receivedCount.toString().padLeft(2, '0'),
+            ),
+          ),
         ],
       ),
     );

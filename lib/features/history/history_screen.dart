@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/router/app_navigation.dart';
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/tracking_service.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
 import 'package:figma_011/features/history/widgets/history_filter_chips.dart';
@@ -60,7 +61,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 itemCount: _filteredShipments.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
-                  return ShipmentCard(shipment: _filteredShipments[index]);
+                  final shipment = _filteredShipments[index];
+                  return ShipmentCard(
+                    shipment: shipment,
+                    onTap: () {
+                      final id = normalizeTrackingId(shipment.trackingNumber);
+                      context.push('${AppRoutes.trackOrder}?id=$id');
+                    },
+                  );
                 },
               ),
             ),

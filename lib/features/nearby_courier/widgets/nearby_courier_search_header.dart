@@ -9,9 +9,13 @@ class NearbyCourierSearchHeader extends StatelessWidget {
   const NearbyCourierSearchHeader({
     super.key,
     required this.onBack,
+    this.searchController,
+    this.onSearchChanged,
   });
 
   final VoidCallback onBack;
+  final TextEditingController? searchController;
+  final ValueChanged<String>? onSearchChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +36,25 @@ class NearbyCourierSearchHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      'Search address',
+                    child: TextField(
+                      controller: searchController,
+                      onChanged: onSearchChanged,
                       style: AppTextStyles.dmSans(
                         fontSize: 12,
                         height: 22,
-                        color: AppColors.white50,
+                        color: AppColors.white,
+                      ),
+                      cursorColor: AppColors.primary,
+                      decoration: InputDecoration(
+                        hintText: 'Search address',
+                        hintStyle: AppTextStyles.dmSans(
+                          fontSize: 12,
+                          height: 22,
+                          color: AppColors.white50,
+                        ),
+                        border: InputBorder.none,
+                        isDense: true,
+                        contentPadding: EdgeInsets.zero,
                       ),
                     ),
                   ),

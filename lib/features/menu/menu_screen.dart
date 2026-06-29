@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:figma_011/core/constants/app_layout.dart';
 import 'package:figma_011/core/router/app_navigation.dart';
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/app_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/features/menu/widgets/menu_header.dart';
 import 'package:figma_011/shared/widgets/app_bottom_nav_bar.dart';
@@ -16,6 +17,7 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentTab = appTabFromLocation(GoRouterState.of(context).uri.path);
+    final appState = AppState.instance;
 
     return Scaffold(
       backgroundColor: AppColors.black1,
@@ -23,6 +25,10 @@ class MenuScreen extends StatelessWidget {
       body: Column(
         children: [
           MenuHeader(
+            email: appState.userEmail,
+            name: appState.userName,
+            sentCount: appState.sentCount,
+            receivedCount: appState.receivedCount,
             onEditTap: () => context.push(AppRoutes.profile),
           ),
           Expanded(
@@ -70,7 +76,10 @@ class MenuScreen extends StatelessWidget {
                     label: 'Logout',
                     icon: Icons.logout,
                     labelColor: AppColors.primary,
-                    onTap: () => context.go(AppRoutes.login),
+                    onTap: () {
+                      AppState.instance.logout();
+                      context.go(AppRoutes.login);
+                    },
                   ),
                 ],
               ),

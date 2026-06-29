@@ -10,7 +10,17 @@ import 'package:figma_011/shared/widgets/primary_button.dart';
 
 /// Final onboarding screen — Figma 423:1577.
 class OnboardingWelcomePage extends StatelessWidget {
-  const OnboardingWelcomePage({super.key});
+  const OnboardingWelcomePage({
+    super.key,
+    this.onComplete,
+  });
+
+  final VoidCallback? onComplete;
+
+  void _navigate(BuildContext context, String route) {
+    onComplete?.call();
+    context.go(route);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +46,7 @@ class OnboardingWelcomePage extends StatelessWidget {
             width: double.infinity,
             height: 56,
             borderRadius: AppLayout.buttonRadiusLg,
-            onPressed: () => context.go(AppRoutes.login),
+            onPressed: () => _navigate(context, AppRoutes.login),
           ),
           const SizedBox(height: 16),
           PrimaryButton(
@@ -47,7 +57,7 @@ class OnboardingWelcomePage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             foregroundColor: AppColors.white,
             border: const BorderSide(color: AppColors.white30),
-            onPressed: () => context.go(AppRoutes.signUp),
+            onPressed: () => _navigate(context, AppRoutes.signUp),
           ),
           const SizedBox(height: 48),
         ],

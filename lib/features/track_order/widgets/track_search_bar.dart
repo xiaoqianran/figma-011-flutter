@@ -8,10 +8,14 @@ import 'package:figma_011/core/theme/app_text_styles.dart';
 class TrackSearchBar extends StatelessWidget {
   const TrackSearchBar({
     super.key,
-    required this.shippingId,
+    required this.controller,
+    this.onSearch,
+    this.hint = 'Enter shipping ID',
   });
 
-  final String shippingId;
+  final TextEditingController controller;
+  final VoidCallback? onSearch;
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +35,42 @@ class TrackSearchBar extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(
-              shippingId,
+            child: TextField(
+              controller: controller,
+              onSubmitted: (_) => onSearch?.call(),
               style: AppTextStyles.dmSans(
                 fontSize: 12,
                 height: 22,
                 fontWeight: FontWeight.w700,
                 color: AppColors.white,
               ),
+              cursorColor: AppColors.primary,
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: AppTextStyles.dmSans(
+                  fontSize: 12,
+                  height: 22,
+                  color: AppColors.white60,
+                ),
+                border: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
             ),
           ),
+          if (onSearch != null)
+            GestureDetector(
+              onTap: onSearch,
+              child: Text(
+                'Track',
+                style: AppTextStyles.dmSans(
+                  fontSize: 12,
+                  height: 22,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
         ],
       ),
     );

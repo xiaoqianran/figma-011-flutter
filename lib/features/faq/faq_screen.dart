@@ -16,20 +16,35 @@ class FaqScreen extends StatefulWidget {
 }
 
 class _FaqScreenState extends State<FaqScreen> {
+  final _searchController = TextEditingController();
   FaqCategory _category = FaqCategory.delivery;
   String? _expandedQuestion;
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   List<FaqItem> get _filteredItems {
-    return mockFaqItems
-        .where((item) => item.category == _category)
-        .toList();
+    final query = _searchController.text.trim().toLowerCase();
+    var items = mockFaqItems.where((item) => item.category == _category);
+
+    if (query.isNotEmpty) {
+      items = items.where(
+        (item) =>
+            item.question.toLowerCase().contains(query) ||
+            item.answer.toLowerCase().contains(query),
+      );
+    }
+
+    final result = items.toList();
+    return result.isEmpty && query.isEmpty ? mockFaqItems : result;
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<FaqItem> items = _filteredItems.isEmpty
-        ? mockFaqItems
-        : _filteredItems;
+    final List<FaqItem> items = _filteredItems;
 
     return Scaffold(
       backgroundColor: AppColors.black1,
@@ -58,12 +73,29 @@ class _FaqScreenState extends State<FaqScreen> {
                           color: AppColors.white,
                         ),
                         const SizedBox(width: 10),
-                        Text(
-                          'Search anything...',
-                          style: AppTextStyles.dmSans(
-                            fontSize: 12,
-                            height: 22,
-                            color: AppColors.white60,
+                        Expanded(
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: (_) => setState(() {
+                              _expandedQuestion = null;
+                            }),
+                            style: AppTextStyles.dmSans(
+                              fontSize: 12,
+                              height: 22,
+                              color: AppColors.white,
+                            ),
+                            cursorColor: AppColors.primary,
+                            decoration: InputDecoration(
+                              hintText: 'Search anything...',
+                              hintStyle: AppTextStyles.dmSans(
+                                fontSize: 12,
+                                height: 22,
+                                color: AppColors.white60,
+                              ),
+                              border: InputBorder.none,
+                              isDense: true,
+                              contentPadding: EdgeInsets.zero,
+                            ),
                           ),
                         ),
                       ],
@@ -89,19 +121,30 @@ class _FaqScreenState extends State<FaqScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  ...items.map(
-                    (item) => _FaqTile(
-                      item: item,
-                      isExpanded: _expandedQuestion == item.question,
-                      onTap: () {
-                        setState(() {
-                          _expandedQuestion = _expandedQuestion == item.question
-                              ? null
-                              : item.question;
-                        });
-                      },
+                  if (items.isEmpty)
+                    Text(
+                      'No questions found.',
+                      style: AppTextStyles.dmSans(
+                        fontSize: 14,
+                        height: 24,
+                        color: AppColors.white60,
+                      ),
+                    )
+                  else
+                    ...items.map(
+                      (item) => _FaqTile(
+                        item: item,
+                        isExpanded: _expandedQuestion == item.question,
+                        onTap: () {
+                          setState(() {
+                            _expandedQuestion =
+                                _expandedQuestion == item.question
+                                    ? null
+                                    : item.question;
+                          });
+                        },
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

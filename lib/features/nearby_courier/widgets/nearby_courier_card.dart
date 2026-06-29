@@ -11,10 +11,14 @@ class NearbyCourierCard extends StatelessWidget {
     super.key,
     required this.courier,
     this.compact = false,
+    this.onCall,
+    this.onDirections,
   });
 
   final NearbyCourier courier;
   final bool compact;
+  final VoidCallback? onCall;
+  final VoidCallback? onDirections;
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +116,12 @@ class NearbyCourierCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const _ActionButton(icon: Icons.call),
+              _ActionButton(icon: Icons.call, onTap: onCall),
               const SizedBox(width: 8),
-              const _ActionButton(icon: Icons.near_me_outlined),
+              _ActionButton(
+                icon: Icons.near_me_outlined,
+                onTap: onDirections,
+              ),
             ],
           ),
         ],
@@ -142,23 +149,27 @@ class _InfoChip extends StatelessWidget {
 }
 
 class _ActionButton extends StatelessWidget {
-  const _ActionButton({required this.icon});
+  const _ActionButton({required this.icon, this.onTap});
 
   final IconData icon;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 24,
-      height: 24,
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Icon(
-        icon,
-        size: 12,
-        color: AppColors.black1,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 24,
+        height: 24,
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(
+          icon,
+          size: 12,
+          color: AppColors.black1,
+        ),
       ),
     );
   }

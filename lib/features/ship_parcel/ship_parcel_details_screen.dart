@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/constants/app_layout.dart';
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/parcel_flow_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
 import 'package:figma_011/features/ship_parcel/models/ship_addon.dart';
@@ -21,13 +22,180 @@ class ShipParcelDetailsScreen extends StatefulWidget {
 }
 
 class _ShipParcelDetailsScreenState extends State<ShipParcelDetailsScreen> {
-  late final Map<String, bool> _addonSelection = {
-    for (final ShipAddon addon in mockShipAddons)
-      addon.id: addon.defaultSelected,
-  };
+  final ParcelFlowState _flow = ParcelFlowState.instance;
+  late final TextEditingController _referenceController;
+  late final TextEditingController _descriptionController;
+  late final TextEditingController _pickupDetailsController;
+
+  static const _months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _referenceController = TextEditingController(text: _flow.referenceId);
+    _descriptionController =
+        TextEditingController(text: _flow.itemDescription);
+    _pickupDetailsController =
+        TextEditingController(text: _flow.pickupDetails);
+  }
+
+  @override
+  void dispose() {
+    _referenceController.dispose();
+    _descriptionController.dispose();
+    _pickupDetailsController.dispose();
+    super.dispose();
+  }
+
+  String _formatPickupDate(DateTime date, TimeOfDay time) {
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '${date.day} ${_months[date.month - 1]}, $hour:$minute';
+  }
+
+  Future<void> _pickPickupDate() async {
+    final now = DateTime.now();
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 365)),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: AppColors.primary,
+              surface: AppColors.black2,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (pickedDate == null || !mounted) {
+      return;
+    }
+
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(now),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: AppColors.primary,
+              surface: AppColors.black2,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (pickedTime == null) {
+      return;
+    }
+
+    _flow.updatePickupDate(_formatPickupDate(pickedDate, pickedTime));
+    setState(() {});
+  }
+
+  void _showPickupDetailsDialog() {
+    final dialogController =
+        TextEditingController(text: _pickupDetailsController.text);
+
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor: AppColors.black2,
+          title: Text(
+            'Pickup Details',
+            style: AppTextStyles.merriweatherBold(
+              fontSize: 18,
+              height: 26,
+              color: AppColors.white,
+            ),
+          ),
+          content: TextField(
+            controller: dialogController,
+            maxLines: 4,
+            style: AppTextStyles.dmSans(
+              fontSize: 16,
+              height: 26,
+              color: AppColors.white,
+            ),
+            cursorColor: AppColors.primary,
+            decoration: InputDecoration(
+              hintText: 'Enter pickup instructions',
+              hintStyle: AppTextStyles.dmSans(
+                fontSize: 16,
+                height: 26,
+                color: AppColors.white60,
+              ),
+              border: OutlineInputBorder(
+                borderRadius:
+                    BorderRadius.circular(AppLayout.buttonRadiusSm),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(
+                'Cancel',
+                style: AppTextStyles.dmSans(
+                  fontSize: 16,
+                  height: 26,
+                  color: AppColors.white60,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                final value = dialogController.text.trim();
+                _pickupDetailsController.text = value;
+                _flow.updatePickupDetails(value);
+                setState(() {});
+                Navigator.of(dialogContext).pop();
+              },
+              child: Text(
+                'Save',
+                style: AppTextStyles.dmSans(
+                  fontSize: 16,
+                  height: 26,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    ).then((_) => dialogController.dispose());
+  }
+
+  void _toggleAddon(String id, bool selected) {
+    _flow.updateAddon(id, selected);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    final hasPickupDetails = _flow.pickupDetails.isNotEmpty;
+
     return Scaffold(
       backgroundColor: AppColors.black1,
       body: SafeArea(
@@ -40,33 +208,38 @@ class _ShipParcelDetailsScreenState extends State<ShipParcelDetailsScreen> {
                 padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
                 children: [
                   ShipFormField(
-                    placeholder: '24 Jun, 16:32',
-                    value: '24 Jun, 16:32',
+                    placeholder: _flow.pickupDate,
+                    value: _flow.pickupDate,
                     trailing: const Icon(
                       Icons.calendar_today_outlined,
                       size: 20,
                       color: AppColors.white,
                     ),
+                    onTap: _pickPickupDate,
                   ),
                   const SizedBox(height: 16),
-                  const ShipFormField(
+                  ShipFormField(
                     placeholder: 'Internal Reference ID',
+                    controller: _referenceController,
+                    onChanged: _flow.updateReferenceId,
                   ),
                   const SizedBox(height: 16),
-                  const ShipFormField(
+                  ShipFormField(
                     placeholder: 'Item Name & Description',
                     height: 100,
+                    controller: _descriptionController,
+                    onChanged: _flow.updateItemDescription,
                   ),
                   const SizedBox(height: 16),
                   ShipFormField(
                     placeholder: 'More Pickup Details',
-                    value: 'More Pickup Details',
+                    value: hasPickupDetails ? _flow.pickupDetails : null,
                     trailing: const Icon(
                       Icons.add,
                       size: 20,
                       color: AppColors.primary,
                     ),
-                    onTap: () {},
+                    onTap: _showPickupDetailsDialog,
                   ),
                   const SizedBox(height: 24),
                   ...mockShipAddons.map(
@@ -74,10 +247,8 @@ class _ShipParcelDetailsScreenState extends State<ShipParcelDetailsScreen> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: ShipAddonRow(
                         addon: addon,
-                        isSelected: _addonSelection[addon.id] ?? false,
-                        onChanged: (selected) {
-                          setState(() => _addonSelection[addon.id] = selected);
-                        },
+                        isSelected: _flow.addonSelection[addon.id] ?? false,
+                        onChanged: (selected) => _toggleAddon(addon.id, selected),
                       ),
                     ),
                   ),

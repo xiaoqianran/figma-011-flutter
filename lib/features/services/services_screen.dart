@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/constants/app_layout.dart';
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/parcel_flow_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
 import 'package:figma_011/features/services/models/courier_service.dart';
@@ -19,10 +20,36 @@ class ServicesScreen extends StatefulWidget {
 }
 
 class _ServicesScreenState extends State<ServicesScreen> {
+  final ParcelFlowState _flow = ParcelFlowState.instance;
+  final TextEditingController _searchController = TextEditingController();
   String _selectedId = mockCourierServices.first.id;
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<CourierService> get _filteredServices {
+    final query = _searchQuery.trim().toLowerCase();
+    if (query.isEmpty) {
+      return mockCourierServices;
+    }
+    return mockCourierServices
+        .where((service) => service.name.toLowerCase().contains(query))
+        .toList();
+  }
+
+  void _onContinue() {
+    _flow.selectCourier(_selectedId);
+    context.push(AppRoutes.shipParcel);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final services = _filteredServices;
+
     return Scaffold(
       backgroundColor: AppColors.black1,
       body: SafeArea(
@@ -34,18 +61,32 @@ class _ServicesScreenState extends State<ServicesScreen> {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
                 children: [
-                  const ServicesSearchBar(),
+                  ServicesSearchBar(
+                    controller: _searchController,
+                    onChanged: (value) =>
+                        setState(() => _searchQuery = value),
+                  ),
                   const SizedBox(height: 24),
-                  ...mockCourierServices.map(
-                    (service) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: CourierServiceCard(
-                        service: service,
-                        isSelected: _selectedId == service.id,
-                        onTap: () => setState(() => _selectedId = service.id),
+                  if (services.isEmpty)
+                    Text(
+                      'No courier services match your search',
+                      style: AppTextStyles.dmSans(
+                        fontSize: 14,
+                        height: 24,
+                        color: AppColors.white60,
+                      ),
+                    )
+                  else
+                    ...services.map(
+                      (service) => Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: CourierServiceCard(
+                          service: service,
+                          isSelected: _selectedId == service.id,
+                          onTap: () => setState(() => _selectedId = service.id),
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -58,7 +99,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     width: double.infinity,
                     height: 56,
                     borderRadius: AppLayout.buttonRadiusLg,
-                    onPressed: () {},
+                    onPressed: _onContinue,
                   ),
                   const SizedBox(height: 16),
                   PrimaryButton(

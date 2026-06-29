@@ -10,13 +10,17 @@ class ShipmentCard extends StatelessWidget {
   const ShipmentCard({
     super.key,
     required this.shipment,
+    this.onTap,
   });
 
   final Shipment shipment;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       width: 327,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -75,6 +79,7 @@ class ShipmentCard extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

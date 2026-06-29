@@ -14,5 +14,5 @@ void main() {
       systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(Figma011App());
+  runApp(const Figma011App());
 }

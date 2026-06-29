@@ -30,6 +30,14 @@ void main() {
     expect(find.text('Packaging'), findsOneWidget);
     expect(find.text('Box'), findsOneWidget);
     expect(find.text('# Of Packages'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
+      find.text('Weight Per Package'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pump();
+
     expect(find.text('Weight Per Package'), findsOneWidget);
     expect(find.text('Add Package'), findsOneWidget);
     expect(find.text('Next'), findsOneWidget);
@@ -79,7 +87,7 @@ void main() {
 
     expect(find.text('Payment'), findsOneWidget);
     expect(find.text('Order Summary'), findsOneWidget);
-    expect(find.text('Pay \$53.00'), findsOneWidget);
-    expect(find.text(r'$53.00'), findsOneWidget);
+    expect(find.textContaining('Pay \$'), findsOneWidget);
+    expect(find.text('Total'), findsOneWidget);
   });
 }

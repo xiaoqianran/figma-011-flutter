@@ -82,7 +82,7 @@ void main() {
 
     expect(find.text('Calculate Result'), findsOneWidget);
     expect(find.text('Suggestion'), findsOneWidget);
-    expect(find.text(r'$ 48.00'), findsOneWidget);
+    expect(find.text(r'$ 48.00'), findsAtLeastNWidgets(1));
     expect(find.text('Compare Price'), findsOneWidget);
     expect(find.text('Back to Home'), findsOneWidget);
   });

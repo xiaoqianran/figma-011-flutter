@@ -3,9 +3,10 @@ import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/router/app_navigation.dart';
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/app_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
-import 'package:figma_011/features/chat/models/chat_conversation.dart';
+import 'package:figma_011/core/utils/app_feedback.dart';
 import 'package:figma_011/features/chat/widgets/chat_list_tile.dart';
 import 'package:figma_011/shared/widgets/app_bottom_nav_bar.dart';
 
@@ -25,22 +26,33 @@ class ChatScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const _ChatAppBar(),
+            _ChatAppBar(
+              onMore: () => showAppSnackBar(
+                context,
+                message: 'More options coming soon',
+              ),
+            ),
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 120),
-                itemCount: mockChatConversations.length,
-                separatorBuilder: (_, _) => const Divider(
-                  color: AppColors.white30,
-                  height: 1,
-                ),
-                itemBuilder: (context, index) {
-                  final conversation = mockChatConversations[index];
-                  return ChatListTile(
-                    conversation: conversation,
-                    onTap: () => context.push(
-                      AppRoutes.chatDetail(conversation.id),
+              child: ListenableBuilder(
+                listenable: AppState.instance,
+                builder: (context, _) {
+                  final conversations = AppState.instance.conversations;
+                  return ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 120),
+                    itemCount: conversations.length,
+                    separatorBuilder: (_, _) => const Divider(
+                      color: AppColors.white30,
+                      height: 1,
                     ),
+                    itemBuilder: (context, index) {
+                      final conversation = conversations[index];
+                      return ChatListTile(
+                        conversation: conversation,
+                        onTap: () => context.push(
+                          AppRoutes.chatDetail(conversation.id),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -58,7 +70,9 @@ class ChatScreen extends StatelessWidget {
 }
 
 class _ChatAppBar extends StatelessWidget {
-  const _ChatAppBar();
+  const _ChatAppBar({required this.onMore});
+
+  final VoidCallback onMore;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +103,7 @@ class _ChatAppBar extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () {},
+              onPressed: onMore,
               icon: const Icon(
                 Icons.more_vert,
                 color: AppColors.white,

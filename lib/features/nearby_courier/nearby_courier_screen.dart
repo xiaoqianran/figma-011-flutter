@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/constants/app_layout.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/core/utils/app_feedback.dart';
 import 'package:figma_011/features/nearby_courier/models/nearby_courier.dart';
 import 'package:figma_011/features/nearby_courier/widgets/nearby_courier_card.dart';
 import 'package:figma_011/features/nearby_courier/widgets/nearby_courier_search_header.dart';
@@ -18,21 +20,54 @@ class NearbyCourierScreen extends StatefulWidget {
 }
 
 class _NearbyCourierScreenState extends State<NearbyCourierScreen> {
+  final _searchController = TextEditingController();
   NearbyFilter _filter = NearbyFilter.nearby;
   bool _isMapView = false;
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   List<NearbyCourier> get _filteredCouriers {
-    return switch (_filter) {
+    final query = _searchController.text.trim().toLowerCase();
+    var couriers = switch (_filter) {
       NearbyFilter.openNow =>
         mockNearbyCouriers.where((c) => c.isOpen).toList(),
       NearbyFilter.nearby => mockNearbyCouriers,
       NearbyFilter.visited =>
         mockNearbyCouriers.where((c) => c.isVisited).toList(),
     };
+
+    if (query.isNotEmpty) {
+      couriers = couriers
+          .where(
+            (c) =>
+                c.name.toLowerCase().contains(query) ||
+                c.address.toLowerCase().contains(query),
+          )
+          .toList();
+    }
+
+    return couriers;
+  }
+
+  void _onCall(NearbyCourier courier) {
+    showAppSnackBar(context, message: 'Calling ${courier.name}...');
+  }
+
+  void _onDirections(NearbyCourier courier) {
+    showAppSnackBar(
+      context,
+      message: 'Opening directions to ${courier.name}',
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final couriers = _filteredCouriers;
+
     return Scaffold(
       backgroundColor: AppColors.black1,
       body: SafeArea(
@@ -44,6 +79,8 @@ class _NearbyCourierScreenState extends State<NearbyCourierScreen> {
               children: [
                 NearbyCourierSearchHeader(
                   onBack: () => context.pop(),
+                  searchController: _searchController,
+                  onSearchChanged: (_) => setState(() {}),
                 ),
                 NearbyFilterTabs(
                   selected: _filter,
@@ -52,8 +89,16 @@ class _NearbyCourierScreenState extends State<NearbyCourierScreen> {
                 const SizedBox(height: 24),
                 Expanded(
                   child: _isMapView
-                      ? _MapViewContent(couriers: _filteredCouriers)
-                      : _ListViewContent(couriers: _filteredCouriers),
+                      ? _MapViewContent(
+                          couriers: couriers,
+                          onCall: _onCall,
+                          onDirections: _onDirections,
+                        )
+                      : _ListViewContent(
+                          couriers: couriers,
+                          onCall: _onCall,
+                          onDirections: _onDirections,
+                        ),
                 ),
               ],
             ),
@@ -73,27 +118,57 @@ class _NearbyCourierScreenState extends State<NearbyCourierScreen> {
 }
 
 class _ListViewContent extends StatelessWidget {
-  const _ListViewContent({required this.couriers});
+  const _ListViewContent({
+    required this.couriers,
+    required this.onCall,
+    required this.onDirections,
+  });
 
   final List<NearbyCourier> couriers;
+  final void Function(NearbyCourier courier) onCall;
+  final void Function(NearbyCourier courier) onDirections;
 
   @override
   Widget build(BuildContext context) {
+    if (couriers.isEmpty) {
+      return Center(
+        child: Text(
+          'No couriers found.',
+          style: AppTextStyles.dmSans(
+            fontSize: 14,
+            height: 24,
+            color: AppColors.white60,
+          ),
+        ),
+      );
+    }
+
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 100),
       itemCount: couriers.length,
       separatorBuilder: (_, _) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
-        return NearbyCourierCard(courier: couriers[index]);
+        final courier = couriers[index];
+        return NearbyCourierCard(
+          courier: courier,
+          onCall: () => onCall(courier),
+          onDirections: () => onDirections(courier),
+        );
       },
     );
   }
 }
 
 class _MapViewContent extends StatelessWidget {
-  const _MapViewContent({required this.couriers});
+  const _MapViewContent({
+    required this.couriers,
+    required this.onCall,
+    required this.onDirections,
+  });
 
   final List<NearbyCourier> couriers;
+  final void Function(NearbyCourier courier) onCall;
+  final void Function(NearbyCourier courier) onDirections;
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +187,12 @@ class _MapViewContent extends StatelessWidget {
               itemCount: couriers.length,
               separatorBuilder: (_, _) => const SizedBox(width: 16),
               itemBuilder: (context, index) {
+                final courier = couriers[index];
                 return NearbyCourierCard(
-                  courier: couriers[index],
+                  courier: courier,
                   compact: true,
+                  onCall: () => onCall(courier),
+                  onDirections: () => onDirections(courier),
                 );
               },
             ),

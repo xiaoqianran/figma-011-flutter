@@ -8,12 +8,20 @@ import 'package:figma_011/core/theme/app_text_styles.dart';
 class RouteSelector extends StatelessWidget {
   const RouteSelector({
     super.key,
-    required this.from,
-    required this.to,
+    this.from,
+    this.to,
+    this.fromController,
+    this.toController,
+    this.onFromChanged,
+    this.onToChanged,
   });
 
-  final String from;
-  final String to;
+  final String? from;
+  final String? to;
+  final TextEditingController? fromController;
+  final TextEditingController? toController;
+  final ValueChanged<String>? onFromChanged;
+  final ValueChanged<String>? onToChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +46,19 @@ class RouteSelector extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              _LocationField(label: 'From', value: from),
+              _LocationField(
+                label: 'From',
+                value: from,
+                controller: fromController,
+                onChanged: onFromChanged,
+              ),
               const SizedBox(height: 10),
-              _LocationField(label: 'To', value: to),
+              _LocationField(
+                label: 'To',
+                value: to,
+                controller: toController,
+                onChanged: onToChanged,
+              ),
             ],
           ),
         ),
@@ -87,11 +105,15 @@ class _RouteDot extends StatelessWidget {
 class _LocationField extends StatelessWidget {
   const _LocationField({
     required this.label,
-    required this.value,
+    this.value,
+    this.controller,
+    this.onChanged,
   });
 
   final String label;
-  final String value;
+  final String? value;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -114,15 +136,32 @@ class _LocationField extends StatelessWidget {
           ),
           const SizedBox(width: 29),
           Expanded(
-            child: Text(
-              value,
-              style: AppTextStyles.dmSans(
-                fontSize: 12,
-                height: 22,
-                fontWeight: FontWeight.w500,
-                color: AppColors.white,
-              ),
-            ),
+            child: controller != null
+                ? TextField(
+                    controller: controller,
+                    onChanged: onChanged,
+                    style: AppTextStyles.dmSans(
+                      fontSize: 12,
+                      height: 22,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white,
+                    ),
+                    cursorColor: AppColors.primary,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  )
+                : Text(
+                    value ?? '',
+                    style: AppTextStyles.dmSans(
+                      fontSize: 12,
+                      height: 22,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white,
+                    ),
+                  ),
           ),
         ],
       ),

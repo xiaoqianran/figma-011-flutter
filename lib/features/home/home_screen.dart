@@ -4,8 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:figma_011/core/constants/app_layout.dart';
 import 'package:figma_011/core/router/app_navigation.dart';
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/app_state.dart';
+import 'package:figma_011/core/services/tracking_service.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/core/utils/app_feedback.dart';
 import 'package:figma_011/features/home/widgets/home_header.dart';
 import 'package:figma_011/features/home/widgets/promo_carousel.dart';
 import 'package:figma_011/shared/models/shipment.dart';
@@ -21,9 +24,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FocusNode _searchFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _openTrackOrder(String trackingNumber) {
+    final id = normalizeTrackingId(trackingNumber);
+    context.push('${AppRoutes.trackOrder}?id=$id');
+  }
+
+  void _onSearchTap() {
+    if (_searchFocusNode.hasFocus) {
+      context.push(AppRoutes.trackOrder);
+    } else {
+      _searchFocusNode.requestFocus();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentTab = appTabFromLocation(GoRouterState.of(context).uri.path);
+    final appState = AppState.instance;
 
     return Scaffold(
       backgroundColor: AppColors.black1,
@@ -35,9 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const HomeHeader(),
+              HomeHeader(
+                userName: appState.firstName,
+                onSearchTap: _onSearchTap,
+              ),
               const SizedBox(height: 24),
-              const _ShippingNumberRow(),
+              _ShippingNumberRow(
+                focusNode: _searchFocusNode,
+                onSubmit: _openTrackOrder,
+              ),
               const SizedBox(height: 24),
               const PromoCarousel(),
               const SizedBox(height: 40),
@@ -48,7 +79,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ...mockHomeShipments.map(
                 (shipment) => Padding(
                   padding: const EdgeInsets.only(bottom: 16),
-                  child: ShipmentCard(shipment: shipment),
+                  child: ShipmentCard(
+                    shipment: shipment,
+                    onTap: () => _openTrackOrder(shipment.trackingNumber),
+                  ),
                 ),
               ),
             ],
@@ -64,8 +98,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _ShippingNumberRow extends StatelessWidget {
-  const _ShippingNumberRow();
+class _ShippingNumberRow extends StatefulWidget {
+  const _ShippingNumberRow({
+    required this.focusNode,
+    required this.onSubmit,
+  });
+
+  final FocusNode focusNode;
+  final ValueChanged<String> onSubmit;
+
+  @override
+  State<_ShippingNumberRow> createState() => _ShippingNumberRowState();
+}
+
+class _ShippingNumberRowState extends State<_ShippingNumberRow> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final value = _controller.text.trim();
+    if (value.isEmpty) {
+      return;
+    }
+    widget.onSubmit(value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +148,28 @@ class _ShippingNumberRow extends StatelessWidget {
                   color: AppColors.white,
                 ),
                 const SizedBox(width: 14),
-                Text(
-                  'Shipping number',
-                  style: AppTextStyles.dmSans(
-                    fontSize: 12,
-                    height: 22,
-                    color: AppColors.white50,
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    focusNode: widget.focusNode,
+                    onSubmitted: (_) => _submit(),
+                    style: AppTextStyles.dmSans(
+                      fontSize: 12,
+                      height: 22,
+                      color: AppColors.white,
+                    ),
+                    cursorColor: AppColors.primary,
+                    decoration: InputDecoration(
+                      hintText: 'Shipping number',
+                      hintStyle: AppTextStyles.dmSans(
+                        fontSize: 12,
+                        height: 22,
+                        color: AppColors.white50,
+                      ),
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                    ),
                   ),
                 ),
               ],
@@ -100,17 +177,22 @@ class _ShippingNumberRow extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 15),
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(AppLayout.buttonRadiusLg),
-          ),
-          child: const Icon(
-            Icons.qr_code_scanner,
-            size: 24,
-            color: AppColors.black1,
+        GestureDetector(
+          onTap: () {
+            showAppSnackBar(context, message: 'QR scanner opened');
+          },
+          child: Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(AppLayout.buttonRadiusLg),
+            ),
+            child: const Icon(
+              Icons.qr_code_scanner,
+              size: 24,
+              color: AppColors.black1,
+            ),
           ),
         ),
       ],

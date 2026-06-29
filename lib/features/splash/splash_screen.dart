@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/app_state.dart';
 import 'package:figma_011/core/theme/app_colors.dart';
 import 'package:figma_011/shared/widgets/app_logo.dart';
 
@@ -35,14 +36,21 @@ class _SplashScreenState extends State<SplashScreen> {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
-    _timer = Timer(SplashScreen.displayDuration, _goToOnboarding);
+    _timer = Timer(SplashScreen.displayDuration, _navigateNext);
   }
 
-  void _goToOnboarding() {
+  void _navigateNext() {
     if (!mounted) {
       return;
     }
-    context.go(AppRoutes.onboarding);
+    final appState = AppState.instance;
+    if (!appState.onboardingCompleted) {
+      context.go(AppRoutes.onboarding);
+    } else if (appState.isLoggedIn) {
+      context.go(AppRoutes.home);
+    } else {
+      context.go(AppRoutes.login);
+    }
   }
 
   @override

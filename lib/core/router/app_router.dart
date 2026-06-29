@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/services/app_state.dart';
+import 'package:figma_011/features/auth/forgot_password_screen.dart';
 import 'package:figma_011/features/auth/login_screen.dart';
 import 'package:figma_011/features/auth/sign_up_screen.dart';
 import 'package:figma_011/features/history/history_screen.dart';
 import 'package:figma_011/features/home/home_screen.dart';
 import 'package:figma_011/features/nearby_courier/nearby_courier_screen.dart';
 import 'package:figma_011/features/calculate_parcel/calculate_parcel_screen.dart';
+import 'package:figma_011/features/ship_parcel/order_success_screen.dart';
 import 'package:figma_011/features/ship_parcel/ship_parcel_details_screen.dart';
 import 'package:figma_011/features/ship_parcel/ship_parcel_screen.dart';
 import 'package:figma_011/features/faq/faq_screen.dart';
@@ -31,10 +34,33 @@ import 'package:figma_011/features/splash/splash_screen.dart';
 final GlobalKey<NavigatorState> rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 
+const _authRoutes = {
+  AppRoutes.login,
+  AppRoutes.signUp,
+  AppRoutes.forgotPassword,
+  AppRoutes.onboarding,
+  AppRoutes.splash,
+};
+
 GoRouter createAppRouter() {
+  final appState = AppState.instance;
+
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: AppRoutes.splash,
+    refreshListenable: appState,
+    redirect: (context, state) {
+      final path = state.matchedLocation;
+      final loggedIn = appState.isLoggedIn;
+
+      if (!loggedIn && !_authRoutes.contains(path)) {
+        return AppRoutes.login;
+      }
+      if (loggedIn && _authRoutes.contains(path) && path != AppRoutes.splash) {
+        return AppRoutes.home;
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: AppRoutes.splash,
@@ -47,6 +73,10 @@ GoRouter createAppRouter() {
       GoRoute(
         path: AppRoutes.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.forgotPassword,
+        builder: (context, state) => const ForgotPasswordScreen(),
       ),
       GoRoute(
         path: AppRoutes.signUp,
@@ -74,7 +104,10 @@ GoRouter createAppRouter() {
       ),
       GoRoute(
         path: AppRoutes.trackOrder,
-        builder: (context, state) => const TrackOrderScreen(),
+        builder: (context, state) {
+          final id = state.uri.queryParameters['id'];
+          return TrackOrderScreen(initialShippingId: id);
+        },
       ),
       GoRoute(
         path: AppRoutes.calculateParcel,
@@ -95,6 +128,13 @@ GoRouter createAppRouter() {
       GoRoute(
         path: AppRoutes.shipPayment,
         builder: (context, state) => const ShipPaymentScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.orderSuccess,
+        builder: (context, state) {
+          final tracking = state.uri.queryParameters['tracking'];
+          return OrderSuccessScreen(trackingNumber: tracking);
+        },
       ),
       GoRoute(
         path: AppRoutes.menu,
