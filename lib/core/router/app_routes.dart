@@ -11,4 +11,7 @@ abstract final class AppRoutes {
   static const String trackOrder = '/track-order';
   static const String calculateParcel = '/calculate-parcel';
   static const String calculateResult = '/calculate-result';
+  static const String shipParcel = '/ship-parcel';
+  static const String shipParcelDetails = '/ship-parcel/details';
+  static const String shipPayment = '/ship-parcel/payment';
 }
