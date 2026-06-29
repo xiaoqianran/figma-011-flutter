@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/payment/models/payment_method.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/payment/models/payment_method.dart';
 
 /// Saved card or wallet row — Figma 516:4547.
 class PaymentMethodTile extends StatelessWidget {

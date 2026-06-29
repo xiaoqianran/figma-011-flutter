@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/features/onboarding/widgets/onboarding_content_page.dart';
-import 'package:fast_courier_app/features/onboarding/widgets/onboarding_welcome_page.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/features/onboarding/widgets/onboarding_content_page.dart';
+import 'package:figma_011/features/onboarding/widgets/onboarding_welcome_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

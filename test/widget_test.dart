@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:fast_courier_app/features/splash/splash_screen.dart';
-import 'package:fast_courier_app/shared/widgets/app_logo.dart';
+import 'package:figma_011/features/splash/splash_screen.dart';
+import 'package:figma_011/shared/widgets/app_logo.dart';
 
 void main() {
   testWidgets('Splash screen shows centered logo on dark background',

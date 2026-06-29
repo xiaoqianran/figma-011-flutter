@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
 
 /// Stylized map background — Figma 515:4061 map view.
 class NearbyMapPlaceholder extends StatelessWidget {

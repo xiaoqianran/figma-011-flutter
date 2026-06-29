@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/features/faq/faq_screen.dart';
-import 'package:fast_courier_app/features/help/help_screen.dart';
-import 'package:fast_courier_app/features/menu/menu_screen.dart';
-import 'package:fast_courier_app/features/notification/notification_screen.dart';
-import 'package:fast_courier_app/features/payment/payment_screen.dart';
-import 'package:fast_courier_app/features/profile/profile_screen.dart';
-import 'package:fast_courier_app/features/security/security_screen.dart';
-import 'package:fast_courier_app/features/settings/settings_screen.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/features/faq/faq_screen.dart';
+import 'package:figma_011/features/help/help_screen.dart';
+import 'package:figma_011/features/menu/menu_screen.dart';
+import 'package:figma_011/features/notification/notification_screen.dart';
+import 'package:figma_011/features/payment/payment_screen.dart';
+import 'package:figma_011/features/profile/profile_screen.dart';
+import 'package:figma_011/features/security/security_screen.dart';
+import 'package:figma_011/features/settings/settings_screen.dart';
 
 void main() {
   testWidgets('Menu screen shows profile, stats, and menu items',

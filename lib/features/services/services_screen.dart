@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/services/models/courier_service.dart';
-import 'package:fast_courier_app/features/services/widgets/courier_service_card.dart';
-import 'package:fast_courier_app/features/services/widgets/services_search_bar.dart';
-import 'package:fast_courier_app/shared/widgets/primary_button.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/services/models/courier_service.dart';
+import 'package:figma_011/features/services/widgets/courier_service_card.dart';
+import 'package:figma_011/features/services/widgets/services_search_bar.dart';
+import 'package:figma_011/shared/widgets/primary_button.dart';
 
 /// Compare Price / Services screen — Figma node 516:3227.
 class ServicesScreen extends StatefulWidget {

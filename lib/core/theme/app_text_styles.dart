@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
 
 /// Typography mapped from Figma Font Style collection.
 abstract final class AppTextStyles {

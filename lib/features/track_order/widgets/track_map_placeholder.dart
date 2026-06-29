@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
 
 /// Map with route visualization — Figma 516:2518 / 516:2882.
 class TrackMapPlaceholder extends StatelessWidget {

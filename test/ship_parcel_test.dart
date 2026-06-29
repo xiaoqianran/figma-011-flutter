@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/features/ship_parcel/ship_parcel_details_screen.dart';
-import 'package:fast_courier_app/features/ship_parcel/ship_parcel_screen.dart';
-import 'package:fast_courier_app/features/ship_parcel/ship_payment_screen.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/features/ship_parcel/ship_parcel_details_screen.dart';
+import 'package:figma_011/features/ship_parcel/ship_parcel_screen.dart';
+import 'package:figma_011/features/ship_parcel/ship_payment_screen.dart';
 
 void main() {
   testWidgets('Ship Parcel packaging screen shows route and packaging',

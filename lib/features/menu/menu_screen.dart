@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/router/app_navigation.dart';
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/features/menu/widgets/menu_header.dart';
-import 'package:fast_courier_app/shared/widgets/app_bottom_nav_bar.dart';
-import 'package:fast_courier_app/shared/widgets/menu_list_row.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/router/app_navigation.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/features/menu/widgets/menu_header.dart';
+import 'package:figma_011/shared/widgets/app_bottom_nav_bar.dart';
+import 'package:figma_011/shared/widgets/menu_list_row.dart';
 
 /// Menu / profile hub — Figma 516:5428.
 class MenuScreen extends StatelessWidget {

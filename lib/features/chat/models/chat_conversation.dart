@@ -1,4 +1,4 @@
-import 'package:fast_courier_app/features/chat/models/chat_message.dart';
+import 'package:figma_011/features/chat/models/chat_message.dart';
 
 /// A chat thread shown in the Messages list — Figma 516:6460.
 class ChatConversation {

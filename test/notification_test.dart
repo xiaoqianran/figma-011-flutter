@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/features/notification/notification_screen.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/features/notification/notification_screen.dart';
 
 void main() {
   testWidgets('Notification screen shows sections and items',

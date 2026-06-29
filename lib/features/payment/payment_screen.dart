@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/payment/models/payment_method.dart';
-import 'package:fast_courier_app/features/payment/widgets/payment_method_tile.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/payment/models/payment_method.dart';
+import 'package:figma_011/features/payment/widgets/payment_method_tile.dart';
 
 /// Menu payment methods — based on Figma 516:4327 card selector.
 class PaymentScreen extends StatefulWidget {

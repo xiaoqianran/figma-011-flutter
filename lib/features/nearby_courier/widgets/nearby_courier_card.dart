@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/nearby_courier/models/nearby_courier.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/nearby_courier/models/nearby_courier.dart';
 
 /// Courier location card — Figma Courier Service/Large & Small.
 class NearbyCourierCard extends StatelessWidget {

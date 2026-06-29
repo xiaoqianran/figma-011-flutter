@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:fast_courier_app/features/auth/sign_up_screen.dart';
+import 'package:figma_011/features/auth/sign_up_screen.dart';
 
 void main() {
   testWidgets('Sign up screen shows welcome text and all form fields',

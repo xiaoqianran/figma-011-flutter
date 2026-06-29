@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/features/nearby_courier/models/nearby_courier.dart';
-import 'package:fast_courier_app/features/nearby_courier/widgets/nearby_courier_card.dart';
-import 'package:fast_courier_app/features/nearby_courier/widgets/nearby_courier_search_header.dart';
-import 'package:fast_courier_app/features/nearby_courier/widgets/nearby_filter_tabs.dart';
-import 'package:fast_courier_app/features/nearby_courier/widgets/nearby_map_placeholder.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/features/nearby_courier/models/nearby_courier.dart';
+import 'package:figma_011/features/nearby_courier/widgets/nearby_courier_card.dart';
+import 'package:figma_011/features/nearby_courier/widgets/nearby_courier_search_header.dart';
+import 'package:figma_011/features/nearby_courier/widgets/nearby_filter_tabs.dart';
+import 'package:figma_011/features/nearby_courier/widgets/nearby_map_placeholder.dart';
 
 /// Nearby Courier list & map views — Figma 515:4018 / 515:4061.
 class NearbyCourierScreen extends StatefulWidget {

@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  BASE_HREF: /figma-011-flutter/
+  BASE_HREF: /figma-011/
 
 jobs:
   build:

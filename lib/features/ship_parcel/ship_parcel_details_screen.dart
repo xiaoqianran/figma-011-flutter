@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/ship_parcel/models/ship_addon.dart';
-import 'package:fast_courier_app/features/ship_parcel/widgets/delivery_estimate_row.dart';
-import 'package:fast_courier_app/features/ship_parcel/widgets/ship_addon_row.dart';
-import 'package:fast_courier_app/features/ship_parcel/widgets/ship_form_field.dart';
-import 'package:fast_courier_app/shared/widgets/primary_button.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/ship_parcel/models/ship_addon.dart';
+import 'package:figma_011/features/ship_parcel/widgets/delivery_estimate_row.dart';
+import 'package:figma_011/features/ship_parcel/widgets/ship_addon_row.dart';
+import 'package:figma_011/features/ship_parcel/widgets/ship_form_field.dart';
+import 'package:figma_011/shared/widgets/primary_button.dart';
 
 /// Ship Parcel details step — Figma 516:4258.
 class ShipParcelDetailsScreen extends StatefulWidget {

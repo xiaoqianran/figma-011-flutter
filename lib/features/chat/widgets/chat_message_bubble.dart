@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/chat/models/chat_message.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/chat/models/chat_message.dart';
 
 /// Chat bubble — Figma 516:6534 / 516:6539.
 class ChatMessageBubble extends StatelessWidget {

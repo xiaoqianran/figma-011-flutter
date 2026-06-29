@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/onboarding/widgets/onboarding_next_button.dart';
-import 'package:fast_courier_app/features/onboarding/widgets/onboarding_progress_bar.dart';
-import 'package:fast_courier_app/shared/widgets/primary_button.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/onboarding/widgets/onboarding_next_button.dart';
+import 'package:figma_011/features/onboarding/widgets/onboarding_progress_bar.dart';
+import 'package:figma_011/shared/widgets/primary_button.dart';
 
 /// Onboarding slide with illustration, progress, title, and actions.
 class OnboardingContentPage extends StatelessWidget {

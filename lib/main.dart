@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:fast_courier_app/app.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
+import 'package:figma_011/app.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,5 +14,5 @@ void main() {
       systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(FastCourierApp());
+  runApp(Figma011App());
 }

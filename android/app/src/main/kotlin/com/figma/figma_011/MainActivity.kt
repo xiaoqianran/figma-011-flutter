@@ -1,4 +1,4 @@
-package com.fastcourier.fast_courier_app
+package com.figma.figma_011
 
 import io.flutter.embedding.android.FlutterActivity
 

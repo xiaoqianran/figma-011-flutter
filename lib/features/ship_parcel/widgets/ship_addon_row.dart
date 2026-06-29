@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/ship_parcel/models/ship_addon.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/ship_parcel/models/ship_addon.dart';
 
 /// Checkbox add-on row with price — Figma 516:4304.
 class ShipAddonRow extends StatelessWidget {

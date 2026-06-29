@@ -1,8 +1,8 @@
-# Fast Courier App
+# figma-011
 
 基于 Figma 设计稿 **Fast Courier App**（Ui Design 页面，375×812 Light Version）复刻的 Flutter 快递应用。
 
-在线预览（GitHub Pages）：**https://xiaoqianran.github.io/figma-011-flutter/**
+在线预览（GitHub Pages）：**https://xiaoqianran.github.io/figma-011/**
 
 ## 项目简介
 
@@ -115,9 +115,9 @@ test/               # Widget 测试
 
 1. 仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**
 2. 推送到 `master` 后自动触发 `Deploy Pages` 工作流
-3. 部署地址：`https://xiaoqianran.github.io/figma-011-flutter/`
+3. 部署地址：`https://xiaoqianran.github.io/figma-011/`
 
-构建时使用 `--base-href /figma-011-flutter/`，以适配 GitHub Pages 项目站点路径。
+构建时使用 `--base-href /figma-011/`，以适配 GitHub Pages 项目站点路径。
 
 ## 提交规范
 

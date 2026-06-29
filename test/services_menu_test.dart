@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/features/nearby_courier/nearby_courier_screen.dart';
-import 'package:fast_courier_app/features/services/services_menu_screen.dart';
-import 'package:fast_courier_app/features/calculate_parcel/calculate_parcel_screen.dart';
-import 'package:fast_courier_app/features/ship_parcel/ship_parcel_screen.dart';
-import 'package:fast_courier_app/features/track_order/track_order_screen.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/features/nearby_courier/nearby_courier_screen.dart';
+import 'package:figma_011/features/services/services_menu_screen.dart';
+import 'package:figma_011/features/calculate_parcel/calculate_parcel_screen.dart';
+import 'package:figma_011/features/ship_parcel/ship_parcel_screen.dart';
+import 'package:figma_011/features/track_order/track_order_screen.dart';
 
 void main() {
   testWidgets('Services menu shows all menu items', (WidgetTester tester) async {

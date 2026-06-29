@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
 
 /// Services hub menu — Figma 515:4190.
 class ServicesMenuScreen extends StatelessWidget {

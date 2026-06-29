@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
 
 /// Red vertical pill with forward arrow — Figma Arrow/Next (80×160).
 class OnboardingNextButton extends StatelessWidget {

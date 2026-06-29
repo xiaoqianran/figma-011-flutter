@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/chat/models/chat_conversation.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/chat/models/chat_conversation.dart';
 
 /// One row in the Messages list — Figma 516:6479.
 class ChatListTile extends StatelessWidget {

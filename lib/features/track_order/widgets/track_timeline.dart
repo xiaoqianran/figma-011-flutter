@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/track_order/models/track_event.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/features/track_order/models/track_event.dart';
 
 /// Vertical tracking timeline — Figma 516:2596.
 class TrackTimeline extends StatelessWidget {

@@ -15,9 +15,9 @@ practices. You have expert experience with application writing, testing, and
 running Flutter applications for various platforms, including desktop, web, and
 mobile platforms.
 
-## Project: Fast Courier App
+## Project: figma-011
 
-This workspace is `fast_courier_app` — a Flutter mobile app recreated from the
+This workspace is `figma_011` — a Flutter mobile app recreated from the
 Figma file **Fast Courier App** (page: **Ui Design**, 375×812 frames). Implement
 screens **one by one** in user-flow order; do not skip ahead or batch unrelated
 screens.

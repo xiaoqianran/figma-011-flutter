@@ -2,16 +2,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:fast_courier_app/core/constants/app_layout.dart';
-import 'package:fast_courier_app/core/router/app_routes.dart';
-import 'package:fast_courier_app/core/theme/app_colors.dart';
-import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/shared/widgets/app_logo.dart';
-import 'package:fast_courier_app/shared/widgets/auth_divider.dart';
-import 'package:fast_courier_app/shared/widgets/auth_text_field.dart';
-import 'package:fast_courier_app/shared/widgets/primary_button.dart';
-import 'package:fast_courier_app/shared/widgets/remember_me_checkbox.dart';
-import 'package:fast_courier_app/shared/widgets/social_login_button.dart';
+import 'package:figma_011/core/constants/app_layout.dart';
+import 'package:figma_011/core/router/app_routes.dart';
+import 'package:figma_011/core/theme/app_colors.dart';
+import 'package:figma_011/core/theme/app_text_styles.dart';
+import 'package:figma_011/shared/widgets/app_logo.dart';
+import 'package:figma_011/shared/widgets/auth_divider.dart';
+import 'package:figma_011/shared/widgets/auth_text_field.dart';
+import 'package:figma_011/shared/widgets/primary_button.dart';
+import 'package:figma_011/shared/widgets/remember_me_checkbox.dart';
+import 'package:figma_011/shared/widgets/social_login_button.dart';
 
 /// Sign up screen — Figma node 515:1731 (frame name: Sing up).
 class SignUpScreen extends StatefulWidget {
