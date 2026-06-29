@@ -10,6 +10,10 @@ import 'package:fast_courier_app/features/nearby_courier/nearby_courier_screen.d
 import 'package:fast_courier_app/features/calculate_parcel/calculate_parcel_screen.dart';
 import 'package:fast_courier_app/features/ship_parcel/ship_parcel_details_screen.dart';
 import 'package:fast_courier_app/features/ship_parcel/ship_parcel_screen.dart';
+import 'package:fast_courier_app/features/faq/faq_screen.dart';
+import 'package:fast_courier_app/features/help/help_screen.dart';
+import 'package:fast_courier_app/features/menu/menu_screen.dart';
+import 'package:fast_courier_app/features/profile/profile_screen.dart';
 import 'package:fast_courier_app/features/ship_parcel/ship_payment_screen.dart';
 import 'package:fast_courier_app/features/calculate_parcel/calculate_result_screen.dart';
 import 'package:fast_courier_app/features/track_order/track_order_screen.dart';
@@ -85,6 +89,22 @@ GoRouter createAppRouter() {
       GoRoute(
         path: AppRoutes.shipPayment,
         builder: (context, state) => const ShipPaymentScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.menu,
+        builder: (context, state) => const MenuScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.faq,
+        builder: (context, state) => const FaqScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.help,
+        builder: (context, state) => const HelpScreen(),
       ),
     ],
   );

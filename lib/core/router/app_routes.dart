@@ -14,4 +14,8 @@ abstract final class AppRoutes {
   static const String shipParcel = '/ship-parcel';
   static const String shipParcelDetails = '/ship-parcel/details';
   static const String shipPayment = '/ship-parcel/payment';
+  static const String menu = '/menu';
+  static const String profile = '/profile';
+  static const String faq = '/faq';
+  static const String help = '/help';
 }

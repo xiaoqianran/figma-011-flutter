@@ -12,8 +12,9 @@ void navigateToAppTab(BuildContext context, AppNavTab tab) {
     case AppNavTab.history:
       context.go(AppRoutes.history);
     case AppNavTab.chat:
-    case AppNavTab.menu:
       break;
+    case AppNavTab.menu:
+      context.go(AppRoutes.menu);
   }
 }
 
@@ -21,6 +22,9 @@ void navigateToAppTab(BuildContext context, AppNavTab tab) {
 AppNavTab appTabFromLocation(String location) {
   if (location.startsWith(AppRoutes.history)) {
     return AppNavTab.history;
+  }
+  if (location.startsWith(AppRoutes.menu)) {
+    return AppNavTab.menu;
   }
   return AppNavTab.home;
 }
