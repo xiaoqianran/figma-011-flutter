@@ -8,4 +8,5 @@ abstract final class AppRoutes {
   static const String servicesMenu = '/services-menu';
   static const String services = '/services';
   static const String nearbyCourier = '/nearby-courier';
+  static const String trackOrder = '/track-order';
 }

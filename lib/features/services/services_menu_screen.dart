@@ -27,10 +27,10 @@ class ServicesMenuScreen extends StatelessWidget {
                   _MenuRow(
                     label: 'Track Order',
                     icon: Icons.explore_outlined,
-                    iconColor: AppColors.primary,
-                    backgroundColor: AppColors.black2,
-                    textColor: AppColors.white,
-                    onTap: () {},
+                    iconColor: AppColors.black1,
+                    backgroundColor: AppColors.white,
+                    textColor: AppColors.black1,
+                    onTap: () => context.push(AppRoutes.trackOrder),
                   ),
                   const SizedBox(height: 16),
                   _MenuRow(
