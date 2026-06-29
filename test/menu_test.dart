@@ -7,7 +7,10 @@ import 'package:fast_courier_app/features/faq/faq_screen.dart';
 import 'package:fast_courier_app/features/help/help_screen.dart';
 import 'package:fast_courier_app/features/menu/menu_screen.dart';
 import 'package:fast_courier_app/features/notification/notification_screen.dart';
+import 'package:fast_courier_app/features/payment/payment_screen.dart';
 import 'package:fast_courier_app/features/profile/profile_screen.dart';
+import 'package:fast_courier_app/features/security/security_screen.dart';
+import 'package:fast_courier_app/features/settings/settings_screen.dart';
 
 void main() {
   testWidgets('Menu screen shows profile, stats, and menu items',
@@ -41,7 +44,9 @@ void main() {
     expect(find.text('Menu'), findsOneWidget);
   });
 
-  testWidgets('Menu navigates to notification, profile, FAQ, and Help',
+  testWidgets(
+      'Menu navigates to notification, payment, security, setting, '
+      'profile, FAQ, and Help',
       (WidgetTester tester) async {
     final router = GoRouter(
       routes: [
@@ -52,6 +57,18 @@ void main() {
         GoRoute(
           path: AppRoutes.notification,
           builder: (context, state) => const NotificationScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.payment,
+          builder: (context, state) => const PaymentScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.security,
+          builder: (context, state) => const SecurityScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.settings,
+          builder: (context, state) => const SettingsScreen(),
         ),
         GoRoute(
           path: AppRoutes.profile,
@@ -78,6 +95,42 @@ void main() {
     await tester.tap(find.text('Notification'));
     await tester.pumpAndSettle();
     expect(find.text('Mark All as Read'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
+      find.text('Payment'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.text('Payment'));
+    await tester.pumpAndSettle();
+    expect(find.text('Payment Methods'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
+      find.text('Security'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.text('Security'));
+    await tester.pumpAndSettle();
+    expect(find.text('Change Password'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
+      find.text('Setting'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.text('Setting'));
+    await tester.pumpAndSettle();
+    expect(find.text('General'), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();

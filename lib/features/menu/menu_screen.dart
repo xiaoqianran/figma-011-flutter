@@ -44,12 +44,12 @@ class MenuScreen extends StatelessWidget {
                   MenuListRow(
                     label: 'Payment',
                     icon: Icons.account_balance_wallet_outlined,
-                    onTap: () {},
+                    onTap: () => context.push(AppRoutes.payment),
                   ),
                   MenuListRow(
                     label: 'Security',
                     icon: Icons.shield_outlined,
-                    onTap: () {},
+                    onTap: () => context.push(AppRoutes.security),
                   ),
                   MenuListRow(
                     label: 'Help & Support',
@@ -64,7 +64,7 @@ class MenuScreen extends StatelessWidget {
                   MenuListRow(
                     label: 'Setting',
                     icon: Icons.settings_outlined,
-                    onTap: () {},
+                    onTap: () => context.push(AppRoutes.settings),
                   ),
                   MenuListRow(
                     label: 'Logout',

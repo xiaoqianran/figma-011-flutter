@@ -15,6 +15,9 @@ import 'package:fast_courier_app/features/chat/chat_detail_screen.dart';
 import 'package:fast_courier_app/features/chat/chat_screen.dart';
 import 'package:fast_courier_app/features/help/help_screen.dart';
 import 'package:fast_courier_app/features/notification/notification_screen.dart';
+import 'package:fast_courier_app/features/payment/payment_screen.dart';
+import 'package:fast_courier_app/features/security/security_screen.dart';
+import 'package:fast_courier_app/features/settings/settings_screen.dart';
 import 'package:fast_courier_app/features/menu/menu_screen.dart';
 import 'package:fast_courier_app/features/profile/profile_screen.dart';
 import 'package:fast_courier_app/features/ship_parcel/ship_payment_screen.dart';
@@ -125,6 +128,18 @@ GoRouter createAppRouter() {
       GoRoute(
         path: AppRoutes.notification,
         builder: (context, state) => const NotificationScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.payment,
+        builder: (context, state) => const PaymentScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.security,
+        builder: (context, state) => const SecurityScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );
