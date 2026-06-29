@@ -9,4 +9,6 @@ abstract final class AppRoutes {
   static const String services = '/services';
   static const String nearbyCourier = '/nearby-courier';
   static const String trackOrder = '/track-order';
+  static const String calculateParcel = '/calculate-parcel';
+  static const String calculateResult = '/calculate-result';
 }
