@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:fast_courier_app/core/constants/app_layout.dart';
+import 'package:fast_courier_app/core/router/app_navigation.dart';
+import 'package:fast_courier_app/core/router/app_routes.dart';
 import 'package:fast_courier_app/core/theme/app_colors.dart';
 import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/home/models/shipment.dart';
 import 'package:fast_courier_app/features/home/widgets/home_header.dart';
 import 'package:fast_courier_app/features/home/widgets/promo_carousel.dart';
-import 'package:fast_courier_app/features/home/widgets/shipment_card.dart';
+import 'package:fast_courier_app/shared/models/shipment.dart';
 import 'package:fast_courier_app/shared/widgets/app_bottom_nav_bar.dart';
+import 'package:fast_courier_app/shared/widgets/shipment_card.dart';
 
 /// Home screen — Figma node 515:2210.
 class HomeScreen extends StatefulWidget {
@@ -18,10 +21,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  AppNavTab _currentTab = AppNavTab.home;
-
   @override
   Widget build(BuildContext context) {
+    final currentTab = appTabFromLocation(GoRouterState.of(context).uri.path);
+
     return Scaffold(
       backgroundColor: AppColors.black1,
       extendBody: true,
@@ -38,9 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 24),
               const PromoCarousel(),
               const SizedBox(height: 40),
-              const _ShipmentHistoryHeader(),
+              _ShipmentHistoryHeader(
+                onViewAll: () => context.go(AppRoutes.history),
+              ),
               const SizedBox(height: 16),
-              ...mockShipments.map(
+              ...mockHomeShipments.map(
                 (shipment) => Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: ShipmentCard(shipment: shipment),
@@ -51,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: AppBottomNavBar(
-        currentTab: _currentTab,
-        onTabSelected: (tab) => setState(() => _currentTab = tab),
+        currentTab: currentTab,
+        onTabSelected: (tab) => navigateToAppTab(context, tab),
       ),
     );
   }
@@ -113,7 +118,9 @@ class _ShippingNumberRow extends StatelessWidget {
 }
 
 class _ShipmentHistoryHeader extends StatelessWidget {
-  const _ShipmentHistoryHeader();
+  const _ShipmentHistoryHeader({this.onViewAll});
+
+  final VoidCallback? onViewAll;
 
   @override
   Widget build(BuildContext context) {
@@ -129,13 +136,16 @@ class _ShipmentHistoryHeader extends StatelessWidget {
             color: AppColors.white,
           ),
         ),
-        Text(
-          'View All',
-          style: AppTextStyles.dmSans(
-            fontSize: 14,
-            height: 24,
-            fontWeight: FontWeight.w700,
-            color: AppColors.primary,
+        GestureDetector(
+          onTap: onViewAll,
+          child: Text(
+            'View All',
+            style: AppTextStyles.dmSans(
+              fontSize: 14,
+              height: 24,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+            ),
           ),
         ),
       ],

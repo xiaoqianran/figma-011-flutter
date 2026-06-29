@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fast_courier_app/core/constants/app_layout.dart';
 import 'package:fast_courier_app/core/theme/app_colors.dart';
 import 'package:fast_courier_app/core/theme/app_text_styles.dart';
-import 'package:fast_courier_app/features/home/models/shipment.dart';
+import 'package:fast_courier_app/shared/models/shipment.dart';
 
-/// Pending shipment card — Figma History/Pending (515:3686).
+/// Shipment history card — Figma History/Pending & History/Completed.
 class ShipmentCard extends StatelessWidget {
   const ShipmentCard({
     super.key,
@@ -52,7 +52,7 @@ class ShipmentCard extends StatelessWidget {
                   ],
                 ),
               ),
-              _StatusBadge(label: shipment.status),
+              _StatusBadge(status: shipment.status),
             ],
           ),
           const SizedBox(height: 12),
@@ -80,20 +80,25 @@ class ShipmentCard extends StatelessWidget {
 }
 
 class _StatusBadge extends StatelessWidget {
-  const _StatusBadge({required this.label});
+  const _StatusBadge({required this.status});
 
-  final String label;
+  final ShipmentStatus status;
 
   @override
   Widget build(BuildContext context) {
+    final Color backgroundColor = switch (status) {
+      ShipmentStatus.pending => AppColors.primary,
+      ShipmentStatus.completed => AppColors.green,
+    };
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        label,
+        status.label,
         style: AppTextStyles.merriweatherRegular(
           fontSize: 10,
           height: 12,

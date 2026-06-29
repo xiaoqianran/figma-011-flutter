@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:fast_courier_app/core/router/app_routes.dart';
 import 'package:fast_courier_app/features/home/home_screen.dart';
 
 void main() {
   testWidgets('Home screen shows greeting, promo, and shipment cards',
       (WidgetTester tester) async {
+    final router = GoRouter(
+      routes: [
+        GoRoute(
+          path: AppRoutes.home,
+          builder: (context, state) => const HomeScreen(),
+        ),
+      ],
+      initialLocation: AppRoutes.home,
+    );
+
     await tester.pumpWidget(
-      const MaterialApp(
-        home: HomeScreen(),
+      MaterialApp.router(
+        routerConfig: router,
       ),
     );
 
