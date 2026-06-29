@@ -70,7 +70,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       bottomNavigationBar: AppBottomNavBar(
         currentTab: currentTab,
         onTabSelected: (tab) => navigateToAppTab(context, tab),
-        onFabTap: () => context.push(AppRoutes.services),
+        onFabTap: () => context.push(AppRoutes.servicesMenu),
       ),
     );
   }

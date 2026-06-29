@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: AppBottomNavBar(
         currentTab: currentTab,
         onTabSelected: (tab) => navigateToAppTab(context, tab),
-        onFabTap: () => context.push(AppRoutes.services),
+        onFabTap: () => context.push(AppRoutes.servicesMenu),
       ),
     );
   }

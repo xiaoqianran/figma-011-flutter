@@ -6,6 +6,8 @@ import 'package:fast_courier_app/features/auth/login_screen.dart';
 import 'package:fast_courier_app/features/auth/sign_up_screen.dart';
 import 'package:fast_courier_app/features/history/history_screen.dart';
 import 'package:fast_courier_app/features/home/home_screen.dart';
+import 'package:fast_courier_app/features/nearby_courier/nearby_courier_screen.dart';
+import 'package:fast_courier_app/features/services/services_menu_screen.dart';
 import 'package:fast_courier_app/features/services/services_screen.dart';
 import 'package:fast_courier_app/features/onboarding/onboarding_screen.dart';
 import 'package:fast_courier_app/features/splash/splash_screen.dart';
@@ -43,8 +45,16 @@ GoRouter createAppRouter() {
         builder: (context, state) => const HistoryScreen(),
       ),
       GoRoute(
+        path: AppRoutes.servicesMenu,
+        builder: (context, state) => const ServicesMenuScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.services,
         builder: (context, state) => const ServicesScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.nearbyCourier,
+        builder: (context, state) => const NearbyCourierScreen(),
       ),
     ],
   );
