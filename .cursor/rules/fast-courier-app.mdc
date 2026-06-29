@@ -1,0 +1,68 @@
+---
+description: Fast Courier App — Figma design-to-Flutter project rules for fast_courier_app
+alwaysApply: true
+---
+
+# Fast Courier App (Figma → Flutter)
+
+Project: `fast_courier_app` | Figma file: **Fast Courier App** | Page: **Ui Design** | Frame: 375×812
+
+Implement screens **one by one** in user-flow order. Do not skip ahead or batch unrelated screens.
+
+## Figma MCP workflow (mandatory)
+
+1. Read design before writing UI: `get_metadata`, `get_selection`, `get_design_context`, `get_styles`, `get_variable_defs`, `get_fonts`.
+2. Use `get_screenshot` only for visual verification after implementation.
+3. Large pages: `get_design_context(depth=2, detail="compact", dedupe_components=true)` then `get_node` / `scan_text_nodes` per section.
+4. Map colors, typography, spacing, radii to `lib/core/theme/` — no scattered magic numbers.
+5. Repeated Figma instances → one Dart widget + data list.
+6. Export assets via `save_screenshots` to `assets/images/` and declare in `pubspec.yaml`.
+
+## Directory layout
+
+```
+lib/
+  main.dart, app.dart
+  core/theme/, core/constants/, core/router/
+  shared/widgets/
+  features/{splash,onboarding,auth,home,history,services,...}/
+assets/images/
+```
+
+## Design tokens
+
+| Token | Value |
+|-------|-------|
+| Primary | `#F95A54` |
+| Black 1 | `#141312` |
+| White | `#FFFFFF` |
+| Gray 1 | `#F6F6F6` |
+| Light Red | `#FEEEDD` |
+| Green | `#3AC479` |
+| White 30% | `#FFFFFF4D` |
+| White 60% | `#FFFFFF99` |
+| Black 50% | `#14131280` |
+
+**Fonts:** Merriweather (headings/buttons) + DM Sans (labels/body) via `google_fonts`.
+
+**Layout:** 375×812 canvas, SafeArea, bottom nav ~95px, button radius 10–15, card radius 16.
+
+## Screen order
+
+Splash → Onboarding (1/3, 2/3, 3/3) → Log In → Sign up → Home → History → Services → Nearby Courier → Track Order → Calculate/Ship Parcel → Menu/Profile/FAQ/Help → Chat/Notification
+
+Default reference: **Light Version** frames (y≈2469 row in Figma).
+
+## Dependencies
+
+- `go_router` — navigation
+- `google_fonts` — typography
+- No third-party state management unless requested
+
+## Done criteria
+
+- `flutter analyze` passes with zero errors
+- All Figma copy present and ordered correctly
+- Tokens match design or deviation is documented
+- Assets declared in `pubspec.yaml`
+- **Git commit** written per `.cursor/rules/git-commit.mdc` before moving to next feature

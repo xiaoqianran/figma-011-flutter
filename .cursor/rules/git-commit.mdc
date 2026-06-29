@@ -1,0 +1,59 @@
+---
+description: Git commit message conventions for this repository
+alwaysApply: true
+---
+
+# Git Commit Guidelines
+
+Every completed feature or logical unit of work MUST end with a git commit following this format.
+
+## Format
+
+```plaintext
+<type>: <subject>
+
+<body>
+```
+
+- **type**: feat | fix | docs | style | refactor | test | chore | ci | build | revert | perf
+- **subject**: brief description in Chinese, imperative mood, no period at end
+- **body**: optional detailed explanation (what and why)
+
+## Type selection
+
+| Type | When to use |
+|------|-------------|
+| `feat` | New screen, widget, route, or user-facing capability |
+| `fix` | Bug fix |
+| `docs` | AGENTS.md, rules, README, comments-only changes |
+| `style` | Formatting only, no logic change |
+| `refactor` | Restructure without changing behavior |
+| `test` | Add or update tests |
+| `chore` | Dependencies, tooling, project scaffolding |
+| `build` | pubspec, build config changes |
+| `perf` | Performance optimization |
+
+## Flutter project examples
+
+```plaintext
+feat: 实现 Splash 启动页
+
+根据 Figma 515:1416 还原深色背景与 Logo 居中布局。
+```
+
+```plaintext
+feat: 添加设计 Token 与主题配置
+
+在 lib/core/theme/ 中定义 AppColors、AppTextStyles 与 AppTheme。
+```
+
+```plaintext
+chore: 添加 go_router 与 google_fonts 依赖
+```
+
+## Rules
+
+- One logical feature per commit; do not mix unrelated changes.
+- Run `flutter analyze` before committing feature code.
+- Write subject in Chinese; keep it under 72 characters.
+- Use body when the change needs context (Figma node ID, design decision).
